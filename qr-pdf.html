@@ -18,7 +18,7 @@
     }
 
     .page {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
     }
 
@@ -78,25 +78,18 @@
 
     .field input,
     .field select,
-    .field button,
-    .field textarea {
+    .field button {
       width: 100%;
       box-sizing: border-box;
       font: inherit;
     }
 
     .field input,
-    .field select,
-    .field textarea {
+    .field select {
       border: 1px solid #cbd5e1;
       border-radius: 10px;
       padding: 10px 12px;
       background: #fff;
-    }
-
-    .field textarea {
-      min-height: 70px;
-      resize: vertical;
     }
 
     .row {
@@ -200,31 +193,39 @@
       top: 40px;
       cursor: move;
       display: none;
-      align-items: center;
-      flex-direction: column;
       z-index: 5;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .qr-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px dashed #2563eb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+      padding: 6px;
     }
 
     .qr-box {
       background: white;
-      border: 2px dashed #2563eb;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
-      padding: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex: 0 0 auto;
     }
 
     .qr-label {
-      margin-top: 6px;
-      background: rgba(255, 255, 255, 0.92);
-      padding: 2px 6px;
-      border-radius: 6px;
-      text-align: center;
       line-height: 1.2;
       word-break: break-word;
-      max-width: 260px;
       border: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 6px;
+      padding: 4px 6px;
+      max-width: 260px;
+      flex: 0 0 auto;
     }
 
     .empty-preview {
@@ -266,31 +267,64 @@
         </div>
 
         <div class="field">
-          <label for="qrText">Tekst under QR</label>
+          <label for="qrText">Tekst</label>
           <input type="text" id="qrText" value="Se mer på traktorogmaskin.no" />
+        </div>
+
+        <div class="field">
+          <label for="textLayout">Tekstplassering</label>
+          <select id="textLayout">
+            <option value="bottom">Under QR</option>
+            <option value="right" selected>Til høyre for QR</option>
+            <option value="left">Til venstre for QR</option>
+            <option value="hidden">Ingen tekst</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="autoPlacement">Autoplassering</label>
+          <select id="autoPlacement">
+            <option value="supplier" selected>Din totalleverandør</option>
+            <option value="bottom-right">Nederst høyre</option>
+            <option value="bottom-left">Nederst venstre</option>
+            <option value="center">Midt på</option>
+            <option value="manual">Manuell</option>
+          </select>
         </div>
 
         <div class="row">
           <div class="field">
             <label for="qrSize">QR-størrelse</label>
-            <input type="range" id="qrSize" min="60" max="260" step="1" value="130" />
+            <input type="range" id="qrSize" min="30" max="260" step="1" value="90" />
           </div>
 
           <div class="field">
             <label for="qrSizeValue">Størrelse (px i forhåndsvisning)</label>
-            <input type="number" id="qrSizeValue" min="60" max="260" step="1" value="130" />
+            <input type="number" id="qrSizeValue" min="30" max="260" step="1" value="90" />
           </div>
         </div>
 
         <div class="row">
           <div class="field">
             <label for="labelSize">Tekststørrelse</label>
-            <input type="range" id="labelSize" min="10" max="26" step="1" value="14" />
+            <input type="range" id="labelSize" min="8" max="26" step="1" value="12" />
           </div>
 
           <div class="field">
             <label for="labelSizeValue">Tekststørrelse</label>
-            <input type="number" id="labelSizeValue" min="10" max="26" step="1" value="14" />
+            <input type="number" id="labelSizeValue" min="8" max="26" step="1" value="12" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="labelGap">Avstand QR/tekst</label>
+            <input type="range" id="labelGap" min="0" max="30" step="1" value="8" />
+          </div>
+
+          <div class="field">
+            <label for="labelGapValue">Avstand</label>
+            <input type="number" id="labelGapValue" min="0" max="30" step="1" value="8" />
           </div>
         </div>
 
@@ -315,11 +349,11 @@
         <div class="row">
           <div class="field">
             <label for="posX">X-posisjon</label>
-            <input type="number" id="posX" step="1" value="40" />
+            <input type="number" id="posX" step="1" value="0" />
           </div>
           <div class="field">
             <label for="posY">Y-posisjon</label>
-            <input type="number" id="posY" step="1" value="40" />
+            <input type="number" id="posY" step="1" value="0" />
           </div>
         </div>
 
@@ -328,8 +362,8 @@
         </div>
 
         <div class="hint">
-          Denne versjonen er laget for PDF først. Du kan dra QR-koden rundt i forhåndsvisningen før lagring.
-          Bilde-støtte tar vi i neste steg.
+          Nå kan du gjøre QR-en mye mindre, og du kan velge tekst til høyre, venstre, under eller skjule teksten helt.
+          Drar du med musen, går plasseringen over til manuell.
         </div>
 
         <div class="status" id="status"></div>
@@ -350,10 +384,12 @@
             <canvas id="pdfCanvas"></canvas>
 
             <div id="qrOverlay" class="qr-overlay">
-              <div id="qrBox" class="qr-box">
-                <canvas id="qrCanvas"></canvas>
+              <div id="qrContent" class="qr-content">
+                <div id="qrBox" class="qr-box">
+                  <canvas id="qrCanvas"></canvas>
+                </div>
+                <div id="qrLabel" class="qr-label">Se mer på traktorogmaskin.no</div>
               </div>
-              <div id="qrLabel" class="qr-label">Se mer på traktorogmaskin.no</div>
             </div>
           </div>
         </div>
@@ -366,7 +402,6 @@
       "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
     const state = {
-      file: null,
       fileBytes: null,
       pageCount: 0,
       pdfPageWidth: 0,
@@ -376,18 +411,23 @@
       dragActive: false,
       dragOffsetX: 0,
       dragOffsetY: 0,
-      overlayX: 40,
-      overlayY: 40
+      overlayX: 0,
+      overlayY: 0,
+      autoPlacementMode: "supplier"
     };
 
     const elements = {
       pdfFile: document.getElementById("pdfFile"),
       qrUrl: document.getElementById("qrUrl"),
       qrText: document.getElementById("qrText"),
+      textLayout: document.getElementById("textLayout"),
+      autoPlacement: document.getElementById("autoPlacement"),
       qrSize: document.getElementById("qrSize"),
       qrSizeValue: document.getElementById("qrSizeValue"),
       labelSize: document.getElementById("labelSize"),
       labelSizeValue: document.getElementById("labelSizeValue"),
+      labelGap: document.getElementById("labelGap"),
+      labelGapValue: document.getElementById("labelGapValue"),
       applyMode: document.getElementById("applyMode"),
       posX: document.getElementById("posX"),
       posY: document.getElementById("posY"),
@@ -398,6 +438,7 @@
       stage: document.getElementById("stage"),
       pdfCanvas: document.getElementById("pdfCanvas"),
       qrOverlay: document.getElementById("qrOverlay"),
+      qrContent: document.getElementById("qrContent"),
       qrBox: document.getElementById("qrBox"),
       qrCanvas: document.getElementById("qrCanvas"),
       qrLabel: document.getElementById("qrLabel"),
@@ -408,14 +449,19 @@
     };
 
     bindEvents();
-    syncSizeInputs();
-    syncLabelInputs();
+    syncInputs();
     refreshQrPreview();
 
     function bindEvents() {
       elements.pdfFile.addEventListener("change", handlePdfFile);
       elements.qrUrl.addEventListener("input", refreshQrPreview);
       elements.qrText.addEventListener("input", refreshQrPreview);
+      elements.textLayout.addEventListener("change", refreshQrPreview);
+
+      elements.autoPlacement.addEventListener("change", () => {
+        state.autoPlacementMode = elements.autoPlacement.value;
+        applyCurrentPlacementMode();
+      });
 
       elements.qrSize.addEventListener("input", () => {
         elements.qrSizeValue.value = elements.qrSize.value;
@@ -423,7 +469,7 @@
       });
 
       elements.qrSizeValue.addEventListener("input", () => {
-        const value = clamp(Number(elements.qrSizeValue.value), 60, 260);
+        const value = clamp(Number(elements.qrSizeValue.value), 30, 260);
         elements.qrSize.value = String(value);
         elements.qrSizeValue.value = String(value);
         refreshQrPreview();
@@ -435,26 +481,42 @@
       });
 
       elements.labelSizeValue.addEventListener("input", () => {
-        const value = clamp(Number(elements.labelSizeValue.value), 10, 26);
+        const value = clamp(Number(elements.labelSizeValue.value), 8, 26);
         elements.labelSize.value = String(value);
         elements.labelSizeValue.value = String(value);
         refreshQrPreview();
       });
 
+      elements.labelGap.addEventListener("input", () => {
+        elements.labelGapValue.value = elements.labelGap.value;
+        refreshQrPreview();
+      });
+
+      elements.labelGapValue.addEventListener("input", () => {
+        const value = clamp(Number(elements.labelGapValue.value), 0, 30);
+        elements.labelGap.value = String(value);
+        elements.labelGapValue.value = String(value);
+        refreshQrPreview();
+      });
+
       elements.posX.addEventListener("input", () => {
+        state.autoPlacementMode = "manual";
+        elements.autoPlacement.value = "manual";
         state.overlayX = clamp(Number(elements.posX.value), 0, getMaxOverlayX());
         updateOverlayPosition();
       });
 
       elements.posY.addEventListener("input", () => {
+        state.autoPlacementMode = "manual";
+        elements.autoPlacement.value = "manual";
         state.overlayY = clamp(Number(elements.posY.value), 0, getMaxOverlayY());
         updateOverlayPosition();
       });
 
-      elements.presetSupplier.addEventListener("click", () => applyPreset("supplier"));
-      elements.presetBottomRight.addEventListener("click", () => applyPreset("bottom-right"));
-      elements.presetBottomLeft.addEventListener("click", () => applyPreset("bottom-left"));
-      elements.presetCenter.addEventListener("click", () => applyPreset("center"));
+      elements.presetSupplier.addEventListener("click", () => setAutoPlacementMode("supplier"));
+      elements.presetBottomRight.addEventListener("click", () => setAutoPlacementMode("bottom-right"));
+      elements.presetBottomLeft.addEventListener("click", () => setAutoPlacementMode("bottom-left"));
+      elements.presetCenter.addEventListener("click", () => setAutoPlacementMode("center"));
 
       elements.qrOverlay.addEventListener("mousedown", startDrag);
       document.addEventListener("mousemove", onDrag);
@@ -463,16 +525,14 @@
       elements.saveBtn.addEventListener("click", savePdfWithQr);
     }
 
+    function syncInputs() {
+      elements.qrSizeValue.value = elements.qrSize.value;
+      elements.labelSizeValue.value = elements.labelSize.value;
+      elements.labelGapValue.value = elements.labelGap.value;
+    }
+
     function setStatus(message) {
       elements.status.textContent = message;
-    }
-
-    function syncSizeInputs() {
-      elements.qrSizeValue.value = elements.qrSize.value;
-    }
-
-    function syncLabelInputs() {
-      elements.labelSizeValue.value = elements.labelSize.value;
     }
 
     function clamp(value, min, max) {
@@ -480,21 +540,70 @@
     }
 
     function getQrSize() {
-      return clamp(Number(elements.qrSize.value), 60, 260);
+      return clamp(Number(elements.qrSize.value), 30, 260);
     }
 
     function getLabelSize() {
-      return clamp(Number(elements.labelSize.value), 10, 26);
+      return clamp(Number(elements.labelSize.value), 8, 26);
+    }
+
+    function getLabelGap() {
+      return clamp(Number(elements.labelGap.value), 0, 30);
+    }
+
+    function isLabelVisible() {
+      return elements.textLayout.value !== "hidden" && elements.qrText.value.trim() !== "";
+    }
+
+    function getLabelMetrics() {
+      if (!isLabelVisible()) {
+        return { width: 0, height: 0 };
+      }
+
+      const text = elements.qrText.value.trim();
+      const fontSize = getLabelSize();
+      const lines = text.split(/\n+/).length;
+      const approxWidth = Math.min(260, Math.max(70, text.length * fontSize * 0.58 + 12));
+      const approxHeight = Math.max(fontSize + 10, lines * (fontSize + 4) + 8);
+
+      return {
+        width: approxWidth,
+        height: approxHeight
+      };
     }
 
     function getOverlayWidth() {
-      return getQrSize() + 12;
+      const qrSize = getQrSize();
+      const gap = getLabelGap();
+      const layout = elements.textLayout.value;
+      const label = getLabelMetrics();
+
+      if (!isLabelVisible()) {
+        return qrSize + 12;
+      }
+
+      if (layout === "left" || layout === "right") {
+        return qrSize + 12 + gap + label.width;
+      }
+
+      return Math.max(qrSize + 12, label.width);
     }
 
     function getOverlayHeight() {
-      const labelText = elements.qrText.value.trim();
-      const labelHeight = labelText ? getLabelSize() + 16 : 0;
-      return getQrSize() + 12 + labelHeight + (labelText ? 8 : 0);
+      const qrSize = getQrSize();
+      const gap = getLabelGap();
+      const layout = elements.textLayout.value;
+      const label = getLabelMetrics();
+
+      if (!isLabelVisible()) {
+        return qrSize + 12;
+      }
+
+      if (layout === "left" || layout === "right") {
+        return Math.max(qrSize + 12, label.height);
+      }
+
+      return qrSize + 12 + gap + label.height;
     }
 
     function getMaxOverlayX() {
@@ -507,14 +616,12 @@
 
     async function handlePdfFile(event) {
       const file = event.target.files[0];
-
       if (!file) {
         return;
       }
 
       try {
         setStatus("Laster PDF...");
-        state.file = file;
         state.fileBytes = await file.arrayBuffer();
 
         const pdf = await pdfjsLib.getDocument({ data: state.fileBytes }).promise;
@@ -544,7 +651,7 @@
         elements.qrOverlay.style.display = "flex";
         elements.previewMeta.textContent = `${file.name} • ${state.pageCount} side(r)`;
 
-        applyPreset("supplier");
+        applyCurrentPlacementMode();
         await refreshQrPreview();
         setStatus("PDF lastet. Dra QR-koden dit du vil.");
       } catch (error) {
@@ -558,15 +665,36 @@
       const text = elements.qrText.value.trim();
       const qrSize = getQrSize();
       const labelSize = getLabelSize();
+      const labelGap = getLabelGap();
+      const layout = elements.textLayout.value;
 
       elements.qrCanvas.width = qrSize;
       elements.qrCanvas.height = qrSize;
-      elements.qrBox.style.width = `${qrSize + 12}px`;
-      elements.qrBox.style.height = `${qrSize + 12}px`;
+      elements.qrBox.style.width = `${qrSize}px`;
+      elements.qrBox.style.height = `${qrSize}px`;
 
       elements.qrLabel.textContent = text;
-      elements.qrLabel.style.display = text ? "block" : "none";
       elements.qrLabel.style.fontSize = `${labelSize}px`;
+      elements.qrLabel.style.display = isLabelVisible() ? "block" : "none";
+      elements.qrLabel.style.maxWidth = layout === "bottom" ? `${Math.max(120, qrSize + 30)}px` : "260px";
+
+      if (layout === "bottom") {
+        elements.qrContent.style.flexDirection = "column";
+        elements.qrContent.style.gap = `${labelGap}px`;
+        elements.qrContent.style.alignItems = "center";
+      } else if (layout === "right") {
+        elements.qrContent.style.flexDirection = "row";
+        elements.qrContent.style.gap = `${labelGap}px`;
+        elements.qrContent.style.alignItems = "center";
+      } else if (layout === "left") {
+        elements.qrContent.style.flexDirection = "row-reverse";
+        elements.qrContent.style.gap = `${labelGap}px`;
+        elements.qrContent.style.alignItems = "center";
+      } else {
+        elements.qrContent.style.flexDirection = "row";
+        elements.qrContent.style.gap = "0px";
+        elements.qrContent.style.alignItems = "center";
+      }
 
       if (url) {
         await QRCode.toCanvas(elements.qrCanvas, url, {
@@ -578,9 +706,13 @@
         ctx.clearRect(0, 0, qrSize, qrSize);
       }
 
-      state.overlayX = clamp(state.overlayX, 0, getMaxOverlayX());
-      state.overlayY = clamp(state.overlayY, 0, getMaxOverlayY());
-      updateOverlayPosition();
+      if (state.autoPlacementMode !== "manual") {
+        applyCurrentPlacementMode();
+      } else {
+        state.overlayX = clamp(state.overlayX, 0, getMaxOverlayX());
+        state.overlayY = clamp(state.overlayY, 0, getMaxOverlayY());
+        updateOverlayPosition();
+      }
     }
 
     function updateOverlayPosition() {
@@ -591,11 +723,14 @@
     }
 
     function startDrag(event) {
-      if (!state.file) {
+      if (!state.fileBytes) {
         return;
       }
 
       state.dragActive = true;
+      state.autoPlacementMode = "manual";
+      elements.autoPlacement.value = "manual";
+
       const rect = elements.qrOverlay.getBoundingClientRect();
       state.dragOffsetX = event.clientX - rect.left;
       state.dragOffsetY = event.clientY - rect.top;
@@ -619,7 +754,13 @@
       state.dragActive = false;
     }
 
-    function applyPreset(preset) {
+    function setAutoPlacementMode(mode) {
+      state.autoPlacementMode = mode;
+      elements.autoPlacement.value = mode;
+      applyCurrentPlacementMode();
+    }
+
+    function applyCurrentPlacementMode() {
       if (!state.previewWidth || !state.previewHeight) {
         return;
       }
@@ -627,16 +768,16 @@
       const overlayWidth = getOverlayWidth();
       const overlayHeight = getOverlayHeight();
 
-      if (preset === "supplier") {
+      if (state.autoPlacementMode === "supplier") {
         state.overlayX = state.previewWidth * 0.09;
-        state.overlayY = state.previewHeight * 0.76;
-      } else if (preset === "bottom-right") {
+        state.overlayY = state.previewHeight * 0.865;
+      } else if (state.autoPlacementMode === "bottom-right") {
         state.overlayX = state.previewWidth - overlayWidth - 20;
         state.overlayY = state.previewHeight - overlayHeight - 20;
-      } else if (preset === "bottom-left") {
+      } else if (state.autoPlacementMode === "bottom-left") {
         state.overlayX = 20;
         state.overlayY = state.previewHeight - overlayHeight - 20;
-      } else if (preset === "center") {
+      } else if (state.autoPlacementMode === "center") {
         state.overlayX = (state.previewWidth - overlayWidth) / 2;
         state.overlayY = (state.previewHeight - overlayHeight) / 2;
       }
@@ -660,12 +801,10 @@
 
     async function createQrPngDataUrl(url, size) {
       const canvas = document.createElement("canvas");
-
       await QRCode.toCanvas(canvas, url, {
         width: size,
         margin: 1
       });
-
       return canvas.toDataURL("image/png");
     }
 
@@ -677,6 +816,7 @@
 
       const url = normalizeUrl(elements.qrUrl.value.trim());
       const text = elements.qrText.value.trim();
+      const layout = elements.textLayout.value;
       const applyMode = elements.applyMode.value;
 
       if (!url) {
@@ -692,8 +832,12 @@
 
         const qrSizePx = getQrSize();
         const labelSizePx = getLabelSize();
+        const gapPx = getLabelGap();
+
         const qrSizePdf = (qrSizePx / state.previewWidth) * state.pdfPageWidth;
         const labelSizePdf = (labelSizePx / state.previewWidth) * state.pdfPageWidth;
+        const gapPdf = (gapPx / state.previewWidth) * state.pdfPageWidth;
+
         const qrDataUrl = await createQrPngDataUrl(url, Math.max(400, qrSizePx * 4));
         const qrImage = await pdfDoc.embedPng(qrDataUrl);
 
@@ -718,11 +862,25 @@
             height: qrSizePdf
           });
 
-          if (text) {
-            const labelY = pdfQrY - (labelSizePdf + 6);
+          if (isLabelVisible()) {
+            const textWidth = helvetica.widthOfTextAtSize(text, labelSizePdf);
+            let textX = pdfX;
+            let textY = pdfQrY;
+
+            if (layout === "bottom") {
+              textX = pdfX + Math.max(0, (qrSizePdf - textWidth) / 2);
+              textY = Math.max(4, pdfQrY - labelSizePdf - gapPdf);
+            } else if (layout === "right") {
+              textX = pdfX + qrSizePdf + gapPdf;
+              textY = pdfQrY + (qrSizePdf / 2) - (labelSizePdf / 2);
+            } else if (layout === "left") {
+              textX = Math.max(4, pdfX - textWidth - gapPdf);
+              textY = pdfQrY + (qrSizePdf / 2) - (labelSizePdf / 2);
+            }
+
             page.drawText(text, {
-              x: pdfX,
-              y: Math.max(4, labelY),
+              x: textX,
+              y: Math.max(4, textY),
               size: labelSizePdf,
               font: helvetica,
               color: PDFLib.rgb(0.12, 0.12, 0.12)
