@@ -198,6 +198,48 @@
       grid-column: 1 / span 2;
     }
 
+    .visual-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .visual-grid.qr-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        "top-left . top-right"
+        ". center ."
+        "bottom-left . bottom-right";
+    }
+
+    .visual-grid.text-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        ". top ."
+        "left . right"
+        ". bottom ."
+        "hidden hidden hidden";
+    }
+
+    .visual-btn {
+      min-height: 46px;
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .qr-top-left { grid-area: top-left; }
+    .qr-top-right { grid-area: top-right; }
+    .qr-center { grid-area: center; }
+    .qr-bottom-left { grid-area: bottom-left; }
+    .qr-bottom-right { grid-area: bottom-right; }
+
+    .text-top { grid-area: top; }
+    .text-left { grid-area: left; }
+    .text-right { grid-area: right; }
+    .text-bottom { grid-area: bottom; }
+    .text-hidden { grid-area: hidden; }
+
     .hint {
       color: #4b5563;
       font-size: 13px;
@@ -333,23 +375,23 @@
 
         <div class="field">
           <div class="section-label">QR-plassering</div>
-          <div class="choice-grid five">
-            <button class="btn btn-secondary qr-place-btn" type="button" data-place="top-left">Oppe til venstre</button>
-            <button class="btn btn-secondary qr-place-btn" type="button" data-place="top-right">Oppe til høyre</button>
-            <button class="btn btn-secondary qr-place-btn center-span" type="button" data-place="center">Midt på</button>
-            <button class="btn btn-secondary qr-place-btn" type="button" data-place="bottom-left">Nede til venstre</button>
-            <button class="btn btn-secondary qr-place-btn" type="button" data-place="bottom-right">Nede til høyre</button>
+          <div class="visual-grid qr-grid">
+            <button class="btn btn-secondary visual-btn qr-place-btn qr-top-left" type="button" data-place="top-left">Oppe til venstre</button>
+            <button class="btn btn-secondary visual-btn qr-place-btn qr-top-right" type="button" data-place="top-right">Oppe til høyre</button>
+            <button class="btn btn-secondary visual-btn qr-place-btn qr-center" type="button" data-place="center">Midt på</button>
+            <button class="btn btn-secondary visual-btn qr-place-btn qr-bottom-left" type="button" data-place="bottom-left">Nede til venstre</button>
+            <button class="btn btn-secondary visual-btn qr-place-btn qr-bottom-right" type="button" data-place="bottom-right">Nede til høyre</button>
           </div>
         </div>
 
         <div class="field">
           <div class="section-label">Tekstplassering</div>
-          <div class="choice-grid two">
-            <button class="btn btn-secondary text-layout-btn" type="button" data-layout="top">Over QR</button>
-            <button class="btn btn-secondary text-layout-btn" type="button" data-layout="bottom">Under QR</button>
-            <button class="btn btn-secondary text-layout-btn" type="button" data-layout="left">Til venstre for QR</button>
-            <button class="btn btn-secondary text-layout-btn" type="button" data-layout="right">Til høyre for QR</button>
-            <button class="btn btn-secondary text-layout-btn center-span" type="button" data-layout="hidden">Ingen tekst</button>
+          <div class="visual-grid text-grid">
+            <button class="btn btn-secondary visual-btn text-layout-btn text-top" type="button" data-layout="top">Over QR</button>
+            <button class="btn btn-secondary visual-btn text-layout-btn text-left" type="button" data-layout="left">Til venstre</button>
+            <button class="btn btn-secondary visual-btn text-layout-btn text-right" type="button" data-layout="right">Til høyre</button>
+            <button class="btn btn-secondary visual-btn text-layout-btn text-bottom" type="button" data-layout="bottom">Under QR</button>
+            <button class="btn btn-secondary visual-btn text-layout-btn text-hidden" type="button" data-layout="hidden">Ingen tekst</button>
           </div>
         </div>
 
@@ -402,7 +444,7 @@
         </div>
 
         <div class="hint">
-          Hurtigknapper flytter QR-en grovt. Deretter kan du dra den med musen for finjustering. Tekst over/under/venstre/høyre er egne hurtigvalg.
+          QR-plassering og tekstplassering er nå vist som posisjonsruter. Velg grovplassering med knapp, og dra deretter QR-en med musen.
         </div>
 
         <div class="status" id="status"></div>
@@ -716,7 +758,7 @@
 
         await refreshQrPreview();
         applyQrPlacement();
-        setStatus("PDF lastet. Start med hurtigknapper, og dra deretter QR-en dit du vil.");
+        setStatus("PDF lastet. Velg plassering med rutene, og dra deretter QR-en med musen.");
       } catch (error) {
         console.error(error);
         setStatus("Kunne ikke laste PDF.");
