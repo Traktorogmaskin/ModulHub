@@ -1,378 +1,472 @@
-JobHub – Masterinstruks for AI (plattformarkitektur)
-Denne filen er én samlet instruks som kan brukes i nye ChatGPT-chatter for utvikling av JobHub. Den beskriver plattformens arkitektur, prinsipper og struktur slik at systemet kan utvikles videre uten ombygging.
+JOBHUB – MASTER AI INSTRUKS FOR PLATTFORMARKITEKTUR
+1. Systembeskrivelse
 
-1. Hva JobHub er
+JobHub er en modulbasert plattform for interne verktøy.
 
-JobHub er en modulbasert intern plattform for bedriftsverktøy.
+Plattformen samler mange typer arbeidsverktøy i ett system, samtidig som hvert verktøy kan utvikles uavhengig.
 
-Plattformen skal samle mange forskjellige typer verktøy i ett system, samtidig som hver funksjon kan utvikles uavhengig av de andre.
+JobHub utvikles først for:
 
-JobHub er ikke:
+lokal bruk
 
-et rent logistikksystem
+intern testing
 
-et ERP-system
+effektivisering
 
-en kalkulatorplattform
+Men arkitekturen skal gjøre det mulig å senere:
 
-en dokumentmappe
+lisensiere moduler
 
-JobHub er:
+selge moduler
 
-en plattform for mange moduler og interne verktøy.
+tilby systemet eksternt
 
-Alle funksjoner implementeres som moduler.
+kjøre systemet via GitHub Pages eller server
 
-Ingen modul er hovedmodul.
+JobHub er derfor en plattform – ikke et enkelt program.
 
-2. Grunnprinsipp
+2. Arkitektur
 
-JobHub bygges rundt tre lag:
+JobHub består av tre hovedlag:
 
-Plattformskall
+1. Plattformskall
 
-Moduler
+Kjernen av systemet.
 
-Felles datalag
+Inneholder funksjoner som gjelder alle moduler.
 
-Dette gjør systemet stabilt og utvidbart.
+Eksempler:
 
-3. Overordnet systemkart
-JOBHUB
-│
-├ Plattformskall
-│
-├ Modulstruktur
-│
-├ Felles datalag
-│
-└ Integrasjoner
-4. Plattformskallet
+dashboard
 
-Plattformskallet er kjernen i systemet og inneholder funksjoner som gjelder alle moduler.
+modulnavigasjon
 
-Plattformskallet skal inneholde:
+globalt søk
 
-Dashboard
-Modulnavigasjon
-Globalt søk
-Brukerhåndtering
-Roller og tilgang
-Språkvalg
-Systeminnstillinger
-Varsler
-Felles UI-struktur
+brukerhåndtering
+
+roller og tilgang
+
+språkvalg
+
+varsler
+
+systeminnstillinger
+
+felles UI-struktur
 
 Plattformskallet skal være nøytralt.
 
 Ingen modul skal kontrollere plattformen.
 
-5. Modularkitektur
+2. Moduler
 
-Alle funksjoner i JobHub implementeres som moduler.
+Alle funksjoner implementeres som moduler.
 
-Moduler skal kunne:
+Eksempler:
+
+QR generator
+
+dokumentverktøy
+
+kalkulatorer
+
+generatorer
+
+konverteringsverktøy
+
+interne verktøy
+
+automatisering
+
+Moduler skal:
 
 utvikles separat
 
 oppdateres separat
 
-legges til senere uten ombygging
+installeres separat
 
-Moduler kan bruke felles datalag når det er relevant.
+kunne legges til uten å endre plattformen
 
-Eksempler på eksisterende og planlagte moduler:
+Ingen modul er en hovedmodul.
 
-MODULER
+Alle moduler eksisterer på samme nivå.
 
-Logistikk
-Dokumenthub
-Kommunikasjonshub
-Møtereferat / oppsummering
-Produktark
+3. Felles datalag
+
+Et delt datalag gjør det mulig for moduler å dele informasjon.
+
+Eksempler på objekter:
+
+bruker
+
+rolle
+
+kunde
+
+leverandør
+
+produkt
+
+bestilling
+
+dokument
+
+kommunikasjon
+
+historikk
+
+vedlegg
+
+varsler
+
+Regler:
+
+data skal ikke dupliseres unødvendig
+
+felles informasjon lagres i datalaget
+
+moduler kan ha egne spesifikke data
+
+3. Designprinsipper
+
+JobHub skal bygges etter følgende prinsipper:
+
+Enkelhet
+
+Systemet skal være lett å forstå.
+
+Unngå unødvendig kompleksitet.
+
+Modulær arkitektur
+
+Alle funksjoner implementeres som moduler.
+
+Ingen verktøy bygges direkte inn i kjernen.
+
+Skalerbarhet
+
+Arkitekturen må støtte:
+
+10 moduler
+
+50 moduler
+
+100+ moduler
+
+uten at systemet blir uoversiktlig.
+
+Standard struktur
+
+Alle moduler skal følge samme struktur.
+
+Ingen hardkoding
+
+Systemet skal ikke hardkode moduler.
+
+Startsiden skal lese et modulregister.
+
+4. Filstruktur
+
+Eksempel på grunnstruktur:
+
+JobHub
+│
+├ index.html
+│
+├ css
+├ js
+├ assets
+├ data
+├ shared
+├ modules
+├ docs
+├ sandbox
+└ tools
+5. Modulstruktur
+
+Alle moduler skal bruke en standard struktur:
+
+modules/
+  kategori/
+    modulnavn/
+      assets/
+      css/
+      data/
+      js/
+      module.json
+      index.html
+
+Eksempel:
+
+modules/dokumentverktoy/qr-stempel/
+6. Modulregister
+
+Alle moduler registreres i:
+
+data/modules.json
+
+Eksempel:
+
+[
+  {
+    "id": "qr-stempel",
+    "name": "QR-stempel",
+    "category": "dokumentverktoy",
+    "status": "under utvikling",
+    "description": "Legg QR-kode med tekst på dokument.",
+    "path": "modules/dokumentverktoy/qr-stempel/qr.html",
+    "icon": "QR",
+    "visible": true,
+    "featured": true
+  }
+]
+
+Startsiden skal:
+
+lese modulregisteret
+
+filtrere moduler
+
+sortere etter kategori
+
+generere modul-kort dynamisk
+
+Dette gjør at nye moduler kan legges til uten å endre HTML.
+
+7. Moduldefinisjon
+
+Hver modul skal ha sin egen metadatafil:
+
+module.json
+
+Eksempel:
+
+{
+  "id": "qr-stempel",
+  "name": "QR-stempel",
+  "category": "dokumentverktoy",
+  "version": "1.0.0",
+  "description": "QR-kode på dokumentgrunnlag.",
+  "entry": "qr.html",
+  "icon": "QR",
+  "visible": true,
+  "featured": true,
+  "supports": {
+    "input": ["pdf","png","jpg","jpeg"],
+    "output": ["pdf","png","jpg","svg"]
+  }
+}
+
+Dette gjør det mulig å senere:
+
+installere moduler
+
+oppdatere moduler
+
+lisensiere moduler
+
+koble moduler sammen
+
+8. Modulgrupper
+
+Moduler kan grupperes for oversikt.
+
+Eksempler:
+
+Dokumentverktøy
+
+QR generator
+Etikettgenerator
+Produktmerking
+
+Kalkulatorer
 
 Leasingkalkulator
 Tilhengerkalkulator
 
-QR-kode generator
-Etikettgenerator
+Filverktøy
 
 PDF → JPG
 AVIF → JPG
-
-Fremtidige moduler
-
-Listen er ikke begrensende.
-
-Nye moduler kan alltid legges til.
-
-6. Viktig regel om moduler
-
-Ingen modul er en hovedmodul.
-
-Eksempel:
-
-Logistikk er en modul.
-
-Dokumenthub er en modul.
-
-Kalkulatorer er moduler.
-
-Alle moduler eksisterer på samme nivå.
-
-Plattformskallet er systemets sentrum.
-
-7. Modulgrupper
-
-For å holde systemet ryddig kan moduler grupperes logisk.
-
-Eksempel:
 
 Forretningsmoduler
 
 Logistikk
 Dokumenthub
-Kommunikasjonshub
-Møtereferat
+Kommunikasjon
 Produktark
 
-Salgsverktøy
+Dette er kun kategorier for navigasjon.
 
-Leasingkalkulator
-Tilhengerkalkulator
-Andre kalkulatorer
+De påvirker ikke arkitekturen.
 
-Produksjonsverktøy
+9. Brukerroller
 
-QR-kode
-Etikett
-Produktmerking
+Systemet skal støtte roller:
 
-Fil- og medieverktøy
+administrator
 
-PDF → JPG
-AVIF → JPG
-Andre konverteringsverktøy
+intern bruker
 
-Dette er kun kategorier for oversikt.
+leverandørvisning
 
-Arkitekturen skal ikke begrense hvilke moduler som kan opprettes.
+kundeportalbruker
 
-8. Felles datalag
+Roller bestemmer:
 
-JobHub skal bruke et felles datalag der det er naturlig.
+hvilke moduler som vises
 
-Dette gjør det mulig å dele informasjon mellom moduler.
+hvilke data som kan endres
 
-Eksempler på objekter i datalaget:
+hvilke funksjoner som er tilgjengelige
 
-Leverandør
-Kunde
-Bestilling
-Produkt
-Dokument
-Kommunikasjon
-Historikk
-Bruker
-Rolle
-Kommentar
-Vedlegg
-Varsel
-
-Ikke alle moduler bruker alle objekter.
-
-Men strukturen må gjøre det mulig.
-
-9. Dataregler
-
-Følgende regler gjelder:
-
-Data skal ikke dupliseres unødvendig.
-
-Hvis flere moduler bruker samme informasjon bør den ligge i felles datalag.
-
-Moduler kan ha egne spesifikke data utenfor felles strukturen.
-
-10. Teknisk struktur
-
-JobHub skal bruke enkel og robust filstruktur.
-
-Eksempel:
-
-index.html
-css/
-js/
-data/
-shared/
-modules/
-assets/
-11. Modulstruktur
-
-Eksempel:
-
-modules/
-
-logistikk/
-dokumenthub/
-kommunikasjon/
-motereferat/
-produktark/
-
-leasingkalkulator/
-tilhengerkalkulator/
-
-qr-kode/
-etikett/
-
-pdf-til-jpg/
-avif-til-jpg/
-
-Strukturen skal gjøre det enkelt å legge til nye moduler.
-
-12. Brukerroller
-
-Systemet skal støtte ulike roller.
-
-Eksempler:
-
-Intern administrator
-Intern bruker
-Leverandørvisning
-Kundeportalbruker
-
-Tilgang bestemmer hva brukeren kan se og endre.
-
-13. Språk
+10. Språk
 
 JobHub skal støtte flere språk.
 
 Minimum:
 
-Norsk
-Engelsk
+norsk
 
-Brukeren kan velge språk i grensesnittet.
+engelsk
 
 Dette gjelder:
 
 menyer
+
 knapper
-status
+
 systemtekst
 
 Fritekst oversettes ikke automatisk.
 
-14. Brukergrensesnitt
+11. UI-filosofi
 
-UI skal være:
+Grensesnittet skal være:
 
 kompakt
+
 raskt
-oversiktlig
+
 operativt
 
-Design skal ikke redusere arbeidsflyt.
+oversiktlig
 
 Informasjon skal vises i nivåer:
 
 oversikt
+
 detaljer
+
 full visning
 
-15. Navigasjon
+Design skal aldri redusere arbeidsflyt.
 
-Navigasjonen skal gjøre det enkelt å åpne moduler.
+12. Navigasjon
+
+Navigasjonen skal tåle mange moduler.
 
 Eksempel:
 
 Dashboard
-Logistikk
-Dokumenter
-Kommunikasjon
-Produktark
+Dokumentverktøy
 Kalkulatorer
+Generatorer
 Filverktøy
+Systemverktøy
 
-Navigasjonen må tåle at antall moduler øker.
+13. Eksport
 
-16. Arkiv
-
-Gamle data skal arkiveres, men fortsatt være søkbare.
-
-Dette inkluderer:
-
-historiske bestillinger
-dokumenter
-kommunikasjon
-referater
-
-Systemet skal gjøre det mulig å finne informasjon flere år tilbake.
-
-17. Eksport
-
-JobHub skal støtte eksport til:
+Systemet skal støtte eksport til:
 
 PDF
+
 Excel
+
 JSON
 
-Dette gjelder lister, rapporter og datauttrekk.
+Dette gjelder:
 
-18. Integrasjoner
+rapporter
 
-Integrasjoner skal designes som påbyggbare koblinger.
+data
+
+dokumenter
+
+14. Integrasjoner
+
+Integrasjoner skal være modulære.
 
 Eksempler:
 
-Nettbutikk
-Kundeportal
-E-post
 API
-Rapportering
+
+e-post
+
+nettbutikk
+
+kundeportal
+
+rapportering
 
 Ingen modul skal være hardkoblet til en spesifikk integrasjon.
 
-19. Skalerbarhet
+15. Skalerbarhet
 
-JobHub skal bygges uten fast grense for antall moduler.
+JobHub skal bygges uten fast grense for:
 
-Arkitekturen må derfor:
+antall moduler
 
-tåle nye moduler
-tåle flere roller
-tåle flere datatyper
-tåle integrasjoner
+roller
 
-Plattformen skal kunne vokse uten ombygging.
+datatyper
 
-20. AI-instruks
+integrasjoner
 
-Når ChatGPT hjelper med utvikling av JobHub skal følgende regler følges:
+Arkitekturen må tåle vekst uten ombygging.
+
+16. AI-regler ved utvikling
+
+Når AI utvikler JobHub skal følgende regler følges:
 
 Behold modulbasert arkitektur.
-Ikke gjør en modul til systemets sentrum.
-Skill mellom plattformfunksjon, modulfunksjon og datalag.
-Prioriter stabil struktur fremfor raske løsninger.
-Ikke foreslå løsninger som krever ombygging senere.
-Hold kode enkel, ryddig og utvidbar.
-Anta at nye moduler vil komme senere.
 
-21. Kort systemprompt (brukes i ny chat)
-Du hjelper til med utvikling av JobHub.
+Ingen modul skal bli systemets sentrum.
+
+Plattformskallet er systemets kjerne.
+
+Skill mellom:
+
+plattformfunksjon
+
+modulfunksjon
+
+datalag
+
+Unngå løsninger som krever ombygging senere.
+
+Prioriter enkel, robust og utvidbar kode.
+
+Anta at nye moduler alltid vil komme.
+
+17. Kort systemprompt (bruk i nye AI-chatter)
+
+Du utvikler JobHub.
 
 JobHub er en modulbasert plattform for interne verktøy.
 
-Følg disse reglene:
+Regler:
 
-Ingen modul er hovedmodul.
 Plattformskallet er systemets sentrum.
 
 Alle funksjoner implementeres som moduler.
-Moduler skal kunne legges til uten ombygging.
 
-Skill mellom:
-plattformfunksjoner
-modulfunksjoner
-felles datalag.
+Ingen modul er en hovedmodul.
 
-Prioriter enkel, robust og utvidbar arkitektur.
+Nye moduler skal kunne legges til uten ombygging.
+
+Skill mellom plattformfunksjoner, moduler og datalag.
+
+Prioriter enkel, stabil og skalerbar arkitektur.
