@@ -1,1 +1,7 @@
-
+{
+  "name": "Leasingkalkulator",
+  "slug": "leasingkalkulator",
+  "category": "kalkulatorer",
+  "entry": "index.html",
+  "enabled": true
+}
