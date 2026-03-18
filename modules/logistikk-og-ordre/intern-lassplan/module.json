@@ -1,0 +1,27 @@
+// path: modules/logistikk-og-ordre/leveranseplan/module.json
+{
+  "id": "leveranseplan",
+  "name": "Leveranseplan",
+  "title": "Leveranseplan",
+  "description": "Intern leveranseplan for leverandører, bestillinger, lass og leveringstid.",
+  "entry": "index.html",
+  "category": "logistikk-og-ordre",
+  "status": "Intern",
+  "featured": true,
+  "enabled": true,
+  "visible": true,
+  "icon": "truck",
+  "route_prefix": "/modules/logistikk-og-ordre/leveranseplan",
+  "scope": "internal",
+  "shell": "hub",
+  "i18n": {
+    "no": {
+      "title": "Leveranseplan",
+      "description": "Intern leveranseplan for leverandører, bestillinger, lass og leveringstid."
+    },
+    "en": {
+      "title": "Delivery Plan",
+      "description": "Internal delivery plan for suppliers, orders, loads, and lead times."
+    }
+  }
+}
